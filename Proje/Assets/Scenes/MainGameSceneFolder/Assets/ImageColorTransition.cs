@@ -113,7 +113,7 @@ public class ImageColorTransition : MonoBehaviour
     public void StartColorTransitionSeviye1()
     {
         if (seviyeImages.Length >= 1 && seviyeImages[0] != null)
-            StartCoroutine(ColorTransition(seviyeImages[0], 0, 20, FindResearchName(0)));
+            StartCoroutine(ColorTransition(seviyeImages[0], 0, 3, FindResearchName(0)));
         else
             Debug.LogError("Seviye 1 için geçerli bir Image atanmadý.");
     }
@@ -137,7 +137,7 @@ public class ImageColorTransition : MonoBehaviour
     public void StartColorTransitionSeviye4()
     {
         if (seviyeImages.Length >= 4 && seviyeImages[3] != null)
-            StartCoroutine(ColorTransition(seviyeImages[3], 3,20, FindResearchName(3)));
+            StartCoroutine(ColorTransition(seviyeImages[3], 3, 20, FindResearchName(3)));
         else
             Debug.LogError("Seviye 4 için geçerli bir Image atanmadý.");
     }
@@ -153,7 +153,7 @@ public class ImageColorTransition : MonoBehaviour
     public void StartColorTransitionSeviye6()
     {
         if (seviyeImages.Length >= 6 && seviyeImages[5] != null)
-            StartCoroutine(ColorTransition(seviyeImages[5], 5,20, FindResearchName(5)));
+            StartCoroutine(ColorTransition(seviyeImages[5], 5, 20, FindResearchName(5)));
         else
             Debug.LogError("Seviye 6 için geçerli bir Image atanmadý.");
     }
@@ -169,7 +169,7 @@ public class ImageColorTransition : MonoBehaviour
     public void StartColorTransitionSeviye8()
     {
         if (seviyeImages.Length >= 8 && seviyeImages[7] != null)
-            StartCoroutine(ColorTransition(seviyeImages[7], 7,20, FindResearchName(7)));
+            StartCoroutine(ColorTransition(seviyeImages[7], 7, 20, FindResearchName(7)));
         else
             Debug.LogError("Seviye 8 için geçerli bir Image atanmadý.");
     }
@@ -209,7 +209,7 @@ public class ImageColorTransition : MonoBehaviour
     public void StartColorTransitionSeviye13()
     {
         if (seviyeImages.Length >= 13 && seviyeImages[12] != null)
-            StartCoroutine(ColorTransition(seviyeImages[12], 12,20, FindResearchName(12)));
+            StartCoroutine(ColorTransition(seviyeImages[12], 12, 20, FindResearchName(12)));
         else
             Debug.LogError("Seviye 13 için geçerli bir Image atanmadý.");
     }
@@ -217,7 +217,7 @@ public class ImageColorTransition : MonoBehaviour
     public void StartColorTransitionSeviye14()
     {
         if (seviyeImages.Length >= 14 && seviyeImages[13] != null)
-            StartCoroutine(ColorTransition(seviyeImages[13], 13,20, FindResearchName(13)));
+            StartCoroutine(ColorTransition(seviyeImages[13], 13, 20, FindResearchName(13)));
         else
             Debug.LogError("Seviye 14 için geçerli bir Image atanmadý.");
     }
@@ -225,7 +225,7 @@ public class ImageColorTransition : MonoBehaviour
     public void StartColorTransitionSeviye15()
     {
         if (seviyeImages.Length >= 15 && seviyeImages[14] != null)
-            StartCoroutine(ColorTransition(seviyeImages[14], 14,20, FindResearchName(14)));
+            StartCoroutine(ColorTransition(seviyeImages[14], 14, 20, FindResearchName(14)));
         else
             Debug.LogError("Seviye 15 için geçerli bir Image atanmadý.");
     }
@@ -233,7 +233,7 @@ public class ImageColorTransition : MonoBehaviour
     public void StartColorTransitionSeviye16()
     {
         if (seviyeImages.Length >= 16 && seviyeImages[15] != null)
-            StartCoroutine(ColorTransition(seviyeImages[15], 15,20, FindResearchName(15)));
+            StartCoroutine(ColorTransition(seviyeImages[15], 15, 20, FindResearchName(15)));
         else
             Debug.LogError("Seviye 16 için geçerli bir Image atanmadý.");
     }
@@ -249,7 +249,7 @@ public class ImageColorTransition : MonoBehaviour
     public void StartColorTransitionSeviye18()
     {
         if (seviyeImages.Length >= 18 && seviyeImages[17] != null)
-            StartCoroutine(ColorTransition(seviyeImages[17], 17,20, FindResearchName(17)));
+            StartCoroutine(ColorTransition(seviyeImages[17], 17, 20, FindResearchName(17)));
         else
             Debug.LogError("Seviye 18 için geçerli bir Image atanmadý.");
     }
@@ -257,9 +257,9 @@ public class ImageColorTransition : MonoBehaviour
 
 
 
-    private IEnumerator ColorTransition(Image targetImage , int researchLevel,int duration,string researchName)
+    private IEnumerator ColorTransition(Image targetImage, int researchLevel, int duration, string researchName)
     {
-        if(progressBarController.isLabBuildActive || ResearchButtonEvents.isAnyResearchActive)
+        if (progressBarController.isLabBuildActive || ResearchButtonEvents.isAnyResearchActive)
         {
             Debug.Log("Bina Yüksektmesi veya bir araþtýrmanýn halihazýrda aktif olmasý durumunda araþtýrma yapamazsýnýz.");
         }
@@ -274,8 +274,8 @@ public class ImageColorTransition : MonoBehaviour
 
             float elapsedTime = 0f;
             ResearchButtonEvents.isAnyResearchActive = true;
-          
-            panelManager.CreatePanel(researchLevel.ToString(),researchName, duration, "Researching");
+
+            panelManager.CreatePanel(researchLevel.ToString(), researchName, duration, "Researching");
 
             while (elapsedTime < duration)
             {
@@ -286,12 +286,13 @@ public class ImageColorTransition : MonoBehaviour
             }
             material.SetFloat("_FillAmount", 1f); // Tamamen renkli hale getir
             ResearchButtonEvents.isResearched[researchLevel] = true;
+            researchController.UpgradeResearchedItems(researchLevel);
             ResearchButtonEvents.isAnyResearchActive = false;
-            if(createLabButton != null)
+            if (createLabButton != null)
             {
                 createLabButton.enabled = true;
             }
-           
+
 
             switch (researchLevel)
             {
@@ -334,14 +335,13 @@ public class ImageColorTransition : MonoBehaviour
                 default: break;
             }
 
-            
+
         }
     }
-        //Bina Yükseltmesi Aktifse Yapma
-        //Deðilse Yap
-        //Baþka Bir Yükseltme Aktifse Yapma
-        //Deðilse Yap
+    //Bina Yükseltmesi Aktifse Yapma
+    //Deðilse Yap
+    //Baþka Bir Yükseltme Aktifse Yapma
+    //Deðilse Yap
 
-        
-    }
 
+}

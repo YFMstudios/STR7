@@ -40,44 +40,40 @@ public class NextGame : MonoBehaviourPunCallbacks
 
     // WarIsOnline bilgisini true olarak güncelleyen fonksiyon
 
-private void SetWarIsOnline(string playerName)
-{
-    // Oyuncuyu bulmak için PhotonNetwork.PlayerList içinde döngü kullanıyoruz
-    foreach (var player in PhotonNetwork.PlayerList)
+    public void SetWarIsOnline(string playerName)
     {
-        // Eğer oyuncunun playerName'i eşleşiyorsa
-        if (player.NickName == playerName)
+        foreach (var player in PhotonNetwork.PlayerList)
         {
-            // Mevcut CustomProperties'i doğrudan alıyoruz
-            var customProperties = player.CustomProperties;
+            // Oyuncunun CustomProperties içindeki PlayerName'e bakıyoruz
+            string playerCustomName = player.CustomProperties.ContainsKey("PlayerName") ? player.CustomProperties["PlayerName"].ToString() : null;
 
-            // Geçici değişkenlere bilgileri koyuyoruz
-            var warIsOnline = customProperties.ContainsKey("warIsOnline") ? customProperties["warIsOnline"] : false;
-            var playerNameTemp = player.NickName; // Oyuncunun ismini alıyoruz (örnek)
-            var otherPropertyTemp = customProperties.ContainsKey("otherProperty") ? customProperties["otherProperty"] : null; // Diğer özellik
+            Debug.Log("Comparing: " + playerCustomName + " with " + playerName);
 
-            // Debug ile mevcut bilgileri yazdırıyoruz
-            Debug.Log("Current Player Info:");
-            Debug.Log("Player Name: " + playerNameTemp);
-            Debug.Log("War Is Online: " + warIsOnline);
-            Debug.Log("Other Property: " + otherPropertyTemp);
+            if (playerCustomName == playerName)
+            {
+                Debug.Log("Eşleşme bulundu!");
 
-            // WarIsOnline bilgisini true olarak güncelliyoruz
-            customProperties["warIsOnline"] = true;
+                // Sadece eşleşen oyuncunun CustomProperties bilgisini güncelliyoruz
+                var customProperties = player.CustomProperties;
 
-            // CustomProperties'i güncelliyoruz
-            player.SetCustomProperties(customProperties);
+                // WarIsOnline bilgisini güncelliyoruz
+                customProperties["warIsOnline"] = true;
 
-            // Debug ile güncel bilgiyi yazdırıyoruz
-            Debug.Log("Updated Player Info:");
-            Debug.Log("Player Name: " + playerNameTemp);
-            Debug.Log("Updated War Is Online: " + customProperties["warIsOnline"]);
-            Debug.Log("Other Property: " + otherPropertyTemp);
+                // CustomProperties'i güncelliyoruz
+                player.SetCustomProperties(customProperties);
 
-            break;  // İlgili oyuncu bulunup işlem yapıldıktan sonra döngüyü sonlandırıyoruz
+                // Güncel bilgiyi debug ile yazdıralım
+                Debug.Log("Updated Player Info:");
+                Debug.Log("Player Name: " + playerCustomName);
+                Debug.Log("Updated War Is Online: " + customProperties["warIsOnline"]);
+
+                break;  // İşlem tamamlandı, döngüyü sonlandırıyoruz
+            }
+            // else kısmı gereksiz, çünkü sadece eşleşen oyuncu için işlem yapıyoruz
         }
     }
-}
+
+
 
 
 
@@ -92,12 +88,22 @@ private void SetWarIsOnline(string playerName)
             ? (bool)PhotonNetwork.LocalPlayer.CustomProperties["warIsOnline"]
             : false;
 
+        // Debug log ile warIsOnline değerini kontrol edelim
+        Debug.Log("Current Player's warIsOnline: " + warIsOnline);
+
         // Eğer warIsOnline true ise 7. ekrana yönlendiriyoruz
-        if (warIsOnline)
+        if (warIsOnline == true)
         {
+            Debug.Log("War is online. Redirecting to war scene...");
             GoToWarScene(); // 7. ekrana yönlendirme fonksiyonu
         }
+        else
+        {
+            GoToWarScene2(); // 6. ekrana yönlendirme fonksiyonu
+            Debug.Log("War is not online yet.");
+        }
     }
+
 
     // 7. Ekrana gitme fonksiyonu
     private void GoToWarScene()
@@ -113,6 +119,21 @@ private void SetWarIsOnline(string playerName)
             Debug.LogError("Sahne yüklenirken hata oluştu: " + e.Message);
         }
     }
+
+    private void GoToWarScene2()
+    {
+        try
+        {
+            // Sahne yükleniyor
+            SceneManager.GetActiveScene();
+        }
+        catch (System.Exception e)
+        {
+            // Eğer sahne yüklenirken bir hata olursa
+            Debug.LogError("Sahne yüklenirken hata oluştu: " + e.Message);
+        }
+    }
+
 
     // Update fonksiyonu sürekli olarak CheckPlayerStatus fonksiyonunu çağıracak
     void Update()

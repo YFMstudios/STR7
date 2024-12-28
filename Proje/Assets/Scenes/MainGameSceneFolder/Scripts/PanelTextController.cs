@@ -88,7 +88,7 @@ public class PanelTextController : MonoBehaviour//Bozulan
         }
         else
         {
-            Debug.Log("Seçili Krallýk Bulunmuyor");
+            Debug.Log("Seï¿½ili Krallï¿½k Bulunmuyor");
             kingdomName.text = "Alfgard";
             imageComponent.sprite = Kingdom.Kingdoms[1].Flag;
             foodAmount.text = Kingdom.Kingdoms[1].FoodAmount.ToString();
@@ -117,5 +117,5 @@ public class PanelTextController : MonoBehaviour//Bozulan
         warPower.text = Kingdom.myKingdom.WarPower.ToString();
     }
 
-
+    
 }

@@ -53,6 +53,12 @@ public class PlayerInfoManager : MonoBehaviourPunCallbacks
     var customProperties = new Hashtable();
     customProperties["Kingdom"] = selectedKingdom;  // Krallık bilgisini ekle
     customProperties["PlayerName"] = playerName;    // Kullanıcı adını ekle
+    customProperties["FoodAmount"] = 0;    // Krallık Gıda 
+    customProperties["StoneAmount"] = 0;    // Krallık Tas
+    customProperties["GoldAmount"] = 0;    // Krallık Altın
+    customProperties["WoodAmount"] = 0;    // Krallık Wood
+    customProperties["IronAmount"] = 0;    // Krallık Demir
+    customProperties["WarPower"] = 0;    // Krallık SavasGücü
     customProperties["Warisonline"] = false;
     PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
 
@@ -64,6 +70,7 @@ public class PlayerInfoManager : MonoBehaviourPunCallbacks
 
     
 }
+
 
 
 }

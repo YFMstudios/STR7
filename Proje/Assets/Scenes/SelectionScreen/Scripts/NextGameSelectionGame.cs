@@ -36,6 +36,7 @@ public class NextGame : MonoBehaviourPunCallbacks
         // War durumu her iki oyuncu için true olarak ayarlanıyor
         SetWarIsOnline(currentPlayerName);  // Mevcut oyuncu için
         SetWarIsOnline(opponentName);       // Rakip oyuncu için
+        CheckPlayerStatus();
     }
 
     // WarIsOnline bilgisini true olarak güncelleyen fonksiyon
@@ -73,13 +74,6 @@ public class NextGame : MonoBehaviourPunCallbacks
         }
     }
 
-
-
-
-
-
-
-
     // Sürekli olarak kendi warIsOnline bilgisini sorgulayıp 7. ekrana geçiş yapmak için fonksiyon
     public void CheckPlayerStatus()
     {
@@ -99,13 +93,12 @@ public class NextGame : MonoBehaviourPunCallbacks
         }
         else
         {
-            GoToWarScene2(); // 6. ekrana yönlendirme fonksiyonu
             Debug.Log("War is not online yet.");
         }
     }
 
 
-    // 7. Ekrana gitme fonksiyonu
+    // 7. Ekrana gitme fonksiyonus
     private void GoToWarScene()
     {
         try
@@ -120,25 +113,7 @@ public class NextGame : MonoBehaviourPunCallbacks
         }
     }
 
-    private void GoToWarScene2()
-    {
-        try
-        {
-            // Sahne yükleniyor
-            SceneManager.GetActiveScene();
-        }
-        catch (System.Exception e)
-        {
-            // Eğer sahne yüklenirken bir hata olursa
-            Debug.LogError("Sahne yüklenirken hata oluştu: " + e.Message);
-        }
-    }
+   
 
 
-    // Update fonksiyonu sürekli olarak CheckPlayerStatus fonksiyonunu çağıracak
-    void Update()
-    {
-        // Sürekli kontrol etmek için Update fonksiyonunda çağırabilirsiniz
-        CheckPlayerStatus();
-    }
 }

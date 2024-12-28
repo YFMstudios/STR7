@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
+using Photon.Realtime;
 
 public class Kingdom : MonoBehaviour 
 {
@@ -16,7 +17,7 @@ public class Kingdom : MonoBehaviour
     private int owner;
     private int foodAmount, stoneAmount, goldAmount, woodAmount, ironAmount, warPower;
     private float soldierAmount;
-    private Sprite flag; // Bayrak özelliði eklendi
+    private Sprite flag; // Bayrak ï¿½zelliï¿½i eklendi
 
     public string Name { get { return kingdomName; } set { kingdomName = value; } }
     public int Owner { get { return owner; } set { owner = value; } }
@@ -27,9 +28,9 @@ public class Kingdom : MonoBehaviour
     public int IronAmount { get { return ironAmount; } set { ironAmount = value; } }
     public int WarPower { get { return warPower; } set { warPower = value; } }
     public float SoldierAmount { get { return soldierAmount; } set { soldierAmount = value; } }
-    public Sprite Flag { get { return flag; } set { flag = value; } } // Bayrak özelliði için getter ve setter eklendi
+    public Sprite Flag { get { return flag; } set { flag = value; } } // Bayrak ï¿½zelliï¿½i iï¿½in getter ve setter eklendi
 
-    public Kingdom(string name, int owner, int foodAmount, int stoneAmount, int goldAmount, int woodAmount, int ironAmount, int warPower, int soldierAmount, Sprite flag) // Bayrak özelliði eklendi
+    public Kingdom(string name, int owner, int foodAmount, int stoneAmount, int goldAmount, int woodAmount, int ironAmount, int warPower, int soldierAmount, Sprite flag) // Bayrak ï¿½zelliï¿½i eklendi
     {
         this.kingdomName = name;
         this.owner = owner;
@@ -40,13 +41,13 @@ public class Kingdom : MonoBehaviour
         this.ironAmount = ironAmount;
         this.warPower = warPower;
         this.soldierAmount = soldierAmount;
-        this.flag = flag; // Bayrak özelliði için atama eklendi
+        this.flag = flag; // Bayrak ï¿½zelliï¿½i iï¿½in atama eklendi
     }
      public Kingdom() { }
 
     public static void CreateKingdoms()
     {
-        // Bayrak özelliði için gerekli sprite'lar önce tanýmlanmalýdýr
+        // Bayrak ï¿½zelliï¿½i iï¿½in gerekli sprite'lar ï¿½nce tanï¿½mlanmalï¿½dï¿½r
 
         Sprite akhadzriaFlag = Resources.Load<Sprite>("akhadzriaFlag");
         Sprite alfgardFlag = Resources.Load<Sprite>("alfgardFlag");
@@ -97,6 +98,8 @@ public class Kingdom : MonoBehaviour
            // myKingdom = kingdoms[4];
         }
     }
+
+    
 
     void Awake()
     {

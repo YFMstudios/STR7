@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+
 public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
 {
     // �ehirler i�in kullan�lacak sprite'lar
@@ -26,6 +27,14 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
     int selectedKingdom = GetVariableFromHere.currentSpriteNum;
 
     int selectedKingdom2 = GetVariableFromHere2.currentSpriteNum;
+ public TextMeshProUGUI playerNameText;  // TextMeshProUGUI kullanılıyor
+    public TextMeshProUGUI kingdomNameText;
+    public TextMeshProUGUI foodAmountText;
+    public TextMeshProUGUI stoneAmountText;
+    public TextMeshProUGUI goldAmountText;
+    public TextMeshProUGUI woodAmountText;
+    public TextMeshProUGUI ironAmountText;
+    public TextMeshProUGUI warPowerText;
 
 
 // Rakip oyuncunun veya bilgisayarın seçtiği krallığı temsil eden static string değişken
@@ -48,6 +57,7 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
     // T�klama olay�n� dinleyen metod
     public void OnPointerClick(PointerEventData eventData)
     {
+        string clickedKingdomName = gameObject.name; // Tıklanan krallığın adı
         // Mevcut Image bile�enini al�yoruz
         Image imageComponent = GetComponent<Image>();
 
@@ -198,6 +208,36 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
 
             // �u an t�klanan b�lgeyi "lastClickedRegion" olarak sakla
             lastClickedRegion = imageComponent;
+        }
+
+         // Photon'daki tüm oyuncuları kontrol et
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            // Oyuncunun custom properties'inde krallık adı arıyoruz
+            if (player.CustomProperties.ContainsKey("Kingdom") &&
+                player.CustomProperties["Kingdom"].ToString() == clickedKingdomName)
+            {
+                // Oyuncuyu bulduk, bilgilerini alalım
+                string playerName = player.CustomProperties["PlayerName"].ToString();
+                int foodAmount = (int)player.CustomProperties["FoodAmount"];
+                int stoneAmount = (int)player.CustomProperties["StoneAmount"];
+                int goldAmount = (int)player.CustomProperties["GoldAmount"];
+                int woodAmount = (int)player.CustomProperties["WoodAmount"];
+                int ironAmount = (int)player.CustomProperties["IronAmount"];
+                int warPower = (int)player.CustomProperties["WarPower"];
+
+                // Ekranda göstereceğimiz metinleri güncelle
+                playerNameText.text = "Player Name: " + playerName;
+                kingdomNameText.text = "Kingdom: " + clickedKingdomName;
+                foodAmountText.text = "Food: " + foodAmount;
+                stoneAmountText.text = "Stone: " + stoneAmount;
+                goldAmountText.text = "Gold: " + goldAmount;
+                woodAmountText.text = "Wood: " + woodAmount;
+                ironAmountText.text = "Iron: " + ironAmount;
+                warPowerText.text = "War Power: " + warPower;
+
+                break; // İlk bulunan oyuncuyu gösterdikten sonra durduruyoruz
+            }
         }
     }
 

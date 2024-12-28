@@ -110,4 +110,22 @@ public class Movement : MonoBehaviour
 
         transform.eulerAngles = new Vector3(0, rotationY, 0);  // Rotasyonu uygula
     }
+
+    //NEWLY ADDED
+    public void StopMovement()
+    {
+        if (agent != null)
+        {
+            agent.isStopped = true; // Stop the NavMeshAgent from moving
+            agent.velocity = Vector3.zero; // Immediately stop any current movement
+        }
+    }
+
+    public void ResumeMovement()
+    {
+        if (agent != null)
+        {
+            agent.isStopped = false; // Allow the NavMeshAgent to move again
+        }
+    }
 }

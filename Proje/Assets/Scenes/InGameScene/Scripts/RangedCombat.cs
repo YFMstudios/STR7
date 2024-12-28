@@ -5,28 +5,28 @@ using UnityEngine;
 [RequireComponent(typeof(Movement)), RequireComponent(typeof(Stats))]
 public class RangedCombat : MonoBehaviour
 {
-    // Baðlý bileþenler
-    private Movement moveScript;    // Hareket script bileþeni
-    private Stats stats;            // Oyuncu istatistikleri bileþeni
-    private Animator anim;          // Animator bileþeni
+    // Baï¿½lï¿½ bileï¿½enler
+    private Movement moveScript;    // Hareket script bileï¿½eni
+    private Stats stats;            // Oyuncu istatistikleri bileï¿½eni
+    private Animator anim;          // Animator bileï¿½eni
 
     [Header("Target")]
-    public GameObject targetEnemy;  // Hedeflenen düþman objesi
+    public GameObject targetEnemy;  // Hedeflenen dï¿½ï¿½man objesi
 
     [Header("Ranged Attack Variables")]
-    public bool performRangedAttack = true;    // Ranged saldýrý yapýlýyor mu?
-    private float attackInterval;               // Saldýrý aralýðý
-    private float nextAttackTime = 0;           // Bir sonraki saldýrý zamaný
+    public bool performRangedAttack = true;    // Ranged saldï¿½rï¿½ yapï¿½lï¿½yor mu?
+    private float attackInterval;               // Saldï¿½rï¿½ aralï¿½ï¿½ï¿½
+    private float nextAttackTime = 0;           // Bir sonraki saldï¿½rï¿½ zamanï¿½
 
     [Header("Projectile Settings")]
-    public GameObject attackProjectile;         // Saldýrý projesi prefabý
-    public Transform attackSpawnPoint;           // Saldýrý projesi spawn noktasý
-    private GameObject spawnedProjectile;       // Oluþturulan saldýrý projesi
+    public GameObject attackProjectile;         // Saldï¿½rï¿½ projesi prefabï¿½
+    public Transform attackSpawnPoint;           // Saldï¿½rï¿½ projesi spawn noktasï¿½
+    private GameObject spawnedProjectile;       // Oluï¿½turulan saldï¿½rï¿½ projesi
 
     // Start is called before the first frame update
     void Start()
     {
-        // Baðlý bileþenleri al
+        // Baï¿½lï¿½ bileï¿½enleri al
         moveScript = GetComponent<Movement>();
         stats = GetComponent<Stats>();
         anim = GetComponent<Animator>();
@@ -35,63 +35,63 @@ public class RangedCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Saldýrý aralýðýný hesapla
+        // Saldï¿½rï¿½ aralï¿½ï¿½ï¿½nï¿½ hesapla
         attackInterval = stats.attackSpeed / ((500 + stats.attackSpeed) * 0.01f);
 
-        // Hedef düþmaný güncelle (Movement scriptinden alýnan)
+        // Hedef dï¿½ï¿½manï¿½ gï¿½ncelle (Movement scriptinden alï¿½nan)
         targetEnemy = moveScript.targetEnemy;
 
-        // Hedef düþman varsa ve ranged saldýrý yapýlýyorsa ve saldýrý zamaný geldiyse
+        // Hedef dï¿½ï¿½man varsa ve ranged saldï¿½rï¿½ yapï¿½lï¿½yorsa ve saldï¿½rï¿½ zamanï¿½ geldiyse
         if (targetEnemy != null && performRangedAttack && Time.time > nextAttackTime)
         {
-            // Düþman hareket durma mesafesinde ise
+            // Dï¿½ï¿½man hareket durma mesafesinde ise
             if (Vector3.Distance(transform.position, targetEnemy.transform.position) <= moveScript.stoppingDistance)
             {
-                // Ranged saldýrý aralýðýný baþlat
+                // Ranged saldï¿½rï¿½ aralï¿½ï¿½ï¿½nï¿½ baï¿½lat
                 StartCoroutine(RangedAttackInterval());
             }
         }
     }
 
-    // Ranged saldýrý aralýðýný yöneten Coroutine
+    // Ranged saldï¿½rï¿½ aralï¿½ï¿½ï¿½nï¿½ yï¿½neten Coroutine
     private IEnumerator RangedAttackInterval()
     {
-        performRangedAttack = false;    // Ranged saldýrý yapma iznini kapat
+        performRangedAttack = false;    // Ranged saldï¿½rï¿½ yapma iznini kapat
 
-        // Saldýrý animasyonunu tetikle
+        // Saldï¿½rï¿½ animasyonunu tetikle
         anim.SetBool("isAttacking", true);
 
-        // Saldýrý hýzý/Aralýk deðerine göre bekle
+        // Saldï¿½rï¿½ hï¿½zï¿½/Aralï¿½k deï¿½erine gï¿½re bekle
         yield return new WaitForSeconds(attackInterval);
 
-        // Eðer hedef düþman hala hayattaysa
+        // Eï¿½er hedef dï¿½ï¿½man hala hayattaysa
         if (targetEnemy == null)
         {
-            // Animasyon bool'unu kapat ve tekrar saldýrý yapabilme iznini aç
+            // Animasyon bool'unu kapat ve tekrar saldï¿½rï¿½ yapabilme iznini aï¿½
             anim.SetBool("isAttacking", false);
             performRangedAttack = true;
         }
     }
 
-    // Animasyon eventinde çaðrýlan fonksiyon
+    // Animasyon eventinde ï¿½aï¿½rï¿½lan fonksiyon
     private void RangedAttack()
     {
-        // Saldýrý projesini spawn noktasýnda oluþtur
+        // Saldï¿½rï¿½ projesini spawn noktasï¿½nda oluï¿½tur
         spawnedProjectile = Instantiate(attackProjectile, attackSpawnPoint.transform.position, attackSpawnPoint.transform.rotation);
 
-        // Saldýrý projesindeki TargetEnemy scriptini al
+        // Saldï¿½rï¿½ projesindeki TargetEnemy scriptini al
         TargetEnemy targetEnemyScript = spawnedProjectile.GetComponent<TargetEnemy>();
 
-        // Eðer script varsa hedefi ayarla
+        // Eï¿½er script varsa hedefi ayarla
         if (targetEnemyScript != null)
         {
             targetEnemyScript.SetTarget(targetEnemy.transform);
         }
 
-        // Bir sonraki saldýrý zamanýný ayarla
+        // Bir sonraki saldï¿½rï¿½ zamanï¿½nï¿½ ayarla
         nextAttackTime = Time.time + attackInterval;
 
-        // Animasyon bool'unu kapat ve tekrar saldýrý yapabilme iznini aç
+        // Animasyon bool'unu kapat ve tekrar saldï¿½rï¿½ yapabilme iznini aï¿½
         anim.SetBool("isAttacking", false);
         performRangedAttack = true;
     }

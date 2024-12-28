@@ -5,68 +5,68 @@ using UnityEngine.UI;
 
 public class ManaSystem : MonoBehaviour
 {
-    public float maxMana = 100;         // Maksimum mana miktarý
-    public float startingMana = 100;    // Baþlangýçta verilen mana miktarý
-    public float manaRegenRate = 5;     // Mana yenilenme hýzý
+    public float maxMana = 100;         // Maksimum mana miktarï¿½
+    public float startingMana = 100;    // Baï¿½langï¿½ï¿½ta verilen mana miktarï¿½
+    public float manaRegenRate = 5;     // Mana yenilenme hï¿½zï¿½
 
-    public Slider manaBar2d;            // 2D UI için mana çubuðu
-    public Slider manaBar3d;            // 3D UI için mana çubuðu
-    public Text manaText2d;             // 2D UI için mana metni
+    public Slider manaBar2d;            // 2D UI iï¿½in mana ï¿½ubuï¿½u
+    public Slider manaBar3d;            // 3D UI iï¿½in mana ï¿½ubuï¿½u
+    public Text manaText2d;             // 2D UI iï¿½in mana metni
 
-    private float currentMana;          // Þu anki mana miktarý
+    private float currentMana;          // ï¿½u anki mana miktarï¿½
 
     // Start is called before the first frame update
     void Start()
     {
-        currentMana = startingMana;     // Baþlangýçta mana miktarýný ayarla
-        UpdateManaUI();                 // UI'yý güncelle
+        currentMana = startingMana;     // Baï¿½langï¿½ï¿½ta mana miktarï¿½nï¿½ ayarla
+        UpdateManaUI();                 // UI'yï¿½ gï¿½ncelle
     }
 
     // Update is called once per frame
     void Update()
     {
-        RegenerateMana();               // Mana yenilenmesini saðla
+        RegenerateMana();               // Mana yenilenmesini saï¿½la
     }
 
-    // Mana yenilenmesini saðlayan fonksiyon
+    // Mana yenilenmesini saï¿½layan fonksiyon
     private void RegenerateMana()
     {
         if (currentMana < maxMana)
         {
-            currentMana += manaRegenRate * Time.deltaTime;  // Zamanla mana miktarýný arttýr
-            currentMana = Mathf.Clamp(currentMana, 0f, maxMana);  // Mana miktarýný sýnýrla (0 ile maxMana arasýnda)
-            UpdateManaUI();                                 // UI'yý güncelle
+            currentMana += manaRegenRate * Time.deltaTime;  // Zamanla mana miktarï¿½nï¿½ arttï¿½r
+            currentMana = Mathf.Clamp(currentMana, 0f, maxMana);  // Mana miktarï¿½nï¿½ sï¿½nï¿½rla (0 ile maxMana arasï¿½nda)
+            UpdateManaUI();                                 // UI'yï¿½ gï¿½ncelle
         }
     }
 
-    // UI'yý güncellemek için kullanýlan fonksiyon
+    // UI'yï¿½ gï¿½ncellemek iï¿½in kullanï¿½lan fonksiyon
     public void UpdateManaUI()
     {
         if (manaBar2d != null)
         {
-            manaBar2d.value = currentMana / maxMana;    // 2D mana çubuðunu güncelle (oran olarak)
+            manaBar2d.value = currentMana / maxMana;    // 2D mana ï¿½ubuï¿½unu gï¿½ncelle (oran olarak)
         }
         if (manaBar3d != null)
         {
-            manaBar3d.value = currentMana / maxMana;    // 3D mana çubuðunu güncelle (oran olarak)
+            manaBar3d.value = currentMana / maxMana;    // 3D mana ï¿½ubuï¿½unu gï¿½ncelle (oran olarak)
         }
         if (manaText2d != null)
         {
-            manaText2d.text = Mathf.RoundToInt(currentMana).ToString() + "/" + maxMana;  // 2D mana metnini güncelle
+            manaText2d.text = Mathf.RoundToInt(currentMana).ToString() + "/" + maxMana;  // 2D mana metnini gï¿½ncelle
         }
     }
 
-    // Belirli bir yeteneði kullanma maliyetini karþýlayýp karþýlayamayacaðýný kontrol eden fonksiyon
+    // Belirli bir yeteneï¿½i kullanma maliyetini karï¿½ï¿½layï¿½p karï¿½ï¿½layamayacaï¿½ï¿½nï¿½ kontrol eden fonksiyon
     public bool CanAffordAbility(float abilityCost)
     {
-        return currentMana >= abilityCost;   // Eðer þu anki mana yetenek maliyetini karþýlýyorsa true döndür
+        return currentMana >= abilityCost;   // Eï¿½er ï¿½u anki mana yetenek maliyetini karï¿½ï¿½lï¿½yorsa true dï¿½ndï¿½r
     }
 
-    // Belirli bir yeteneði kullanma fonksiyonu
+    // Belirli bir yeteneï¿½i kullanma fonksiyonu
     public void UseAbility(float abilityCost)
     {
-        currentMana -= abilityCost;             // Yetenek maliyetini düþ
-        currentMana = Mathf.Clamp(currentMana, 0f, maxMana);  // Mana miktarýný sýnýrla (0 ile maxMana arasýnda)
-        UpdateManaUI();                         // UI'yý güncelle
+        currentMana -= abilityCost;             // Yetenek maliyetini dï¿½ï¿½
+        currentMana = Mathf.Clamp(currentMana, 0f, maxMana);  // Mana miktarï¿½nï¿½ sï¿½nï¿½rla (0 ile maxMana arasï¿½nda)
+        UpdateManaUI();                         // UI'yï¿½ gï¿½ncelle
     }
 }

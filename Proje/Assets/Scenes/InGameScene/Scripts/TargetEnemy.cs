@@ -4,52 +4,52 @@ using UnityEngine;
 
 public class TargetEnemy : MonoBehaviour
 {
-    // Hedefi tutacak Transform deðiþkenleri
+    // Hedefi tutacak Transform deï¿½iï¿½kenleri
     public Transform target;
     private Transform originalTarget;
 
-    // RigidBody bileþeni ve atýþ hýzý
+    // RigidBody bileï¿½eni ve atï¿½ï¿½ hï¿½zï¿½
     private Rigidbody theRB;
     public float projectileSpeed;
 
-    // Oyuncu istatistiklerini tutacak Stats bileþeni
+    // Oyuncu istatistiklerini tutacak Stats bileï¿½eni
     private Stats playerStats;
 
-    // Start fonksiyonu, nesne oluþturulduðunda ilk çaðrýlan fonksiyon
+    // Start fonksiyonu, nesne oluï¿½turulduï¿½unda ilk ï¿½aï¿½rï¿½lan fonksiyon
     void Start()
     {
-        // Baþlangýçta hedefi originalTarget'e kopyala
+        // Baï¿½langï¿½ï¿½ta hedefi originalTarget'e kopyala
         originalTarget = target;
 
-        // Player etiketli objenin Stats bileþenini al
+        // Player etiketli objenin Stats bileï¿½enini al
         playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<Stats>();
 
-        // Nesnenin Rigidbody bileþenini al
+        // Nesnenin Rigidbody bileï¿½enini al
         theRB = GetComponent<Rigidbody>();
     }
 
-    // Update fonksiyonu, her frame güncellenen fonksiyon
+    // Update fonksiyonu, her frame gï¿½ncellenen fonksiyon
     void Update()
     {
-        // Eðer halihazýrda bir hedef varsa
+        // Eï¿½er halihazï¿½rda bir hedef varsa
         if (target != null)
         {
-            // Hedefe doðru hareket yönü
+            // Hedefe doï¿½ru hareket yï¿½nï¿½
             Vector3 direction = target.position - transform.position;
 
-            // Hareket yönünü normalleþtirip atýþ hýzýyla çarp ve nesneyi hareket ettir
+            // Hareket yï¿½nï¿½nï¿½ normalleï¿½tirip atï¿½ï¿½ hï¿½zï¿½yla ï¿½arp ve nesneyi hareket ettir
             theRB.velocity = direction.normalized * projectileSpeed;
         }
-        // Eðer originalTarget belirlenmiþse (ancak target yoksa)
+        // Eï¿½er originalTarget belirlenmiï¿½se (ancak target yoksa)
         else if (originalTarget != null)
         {
-            // originalTarget'e doðru hareket yönü
+            // originalTarget'e doï¿½ru hareket yï¿½nï¿½
             Vector3 direction = originalTarget.position - transform.position;
 
-            // Hareket yönünü normalleþtirip atýþ hýzýyla çarp ve nesneyi hareket ettir
+            // Hareket yï¿½nï¿½nï¿½ normalleï¿½tirip atï¿½ï¿½ hï¿½zï¿½yla ï¿½arp ve nesneyi hareket ettir
             theRB.velocity = direction.normalized * projectileSpeed;
         }
-        // Eðer ne target ne de originalTarget varsa
+        // Eï¿½er ne target ne de originalTarget varsa
         else
         {
             // Nesneyi yok et
@@ -57,29 +57,29 @@ public class TargetEnemy : MonoBehaviour
         }
     }
 
-    // Hedefi ayarlamak için kullanýlan fonksiyon
+    // Hedefi ayarlamak iï¿½in kullanï¿½lan fonksiyon
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
     }
 
-    // Nesnenin baþka bir collider ile temas ettiðinde çaðrýlan fonksiyon
+    // Nesnenin baï¿½ka bir collider ile temas ettiï¿½inde ï¿½aï¿½rï¿½lan fonksiyon
     private void OnTriggerEnter(Collider other)
     {
-        // Eðer target belirlenmiþse ve diðer nesne target ile ayný ise
+        // Eï¿½er target belirlenmiï¿½se ve diï¿½er nesne target ile aynï¿½ ise
         if (target != null && other.gameObject == target.gameObject)
         {
-            // Hedefin Stats bileþenini al ve hedefe zarar ver
+            // Hedefin Stats bileï¿½enini al ve hedefe zarar ver
             Stats targetStats = target.gameObject.GetComponent<Stats>();
             targetStats?.TakeDamage(target.gameObject, playerStats.damage);
 
             // Nesneyi yok et
             Destroy(gameObject);
         }
-        // Eðer originalTarget belirlenmiþse ve diðer nesne originalTarget ile ayný ise
+        // Eï¿½er originalTarget belirlenmiï¿½se ve diï¿½er nesne originalTarget ile aynï¿½ ise
         else if (originalTarget != null && other.gameObject == originalTarget.gameObject)
         {
-            // originalTarget'in Stats bileþenini al ve hedefe zarar ver
+            // originalTarget'in Stats bileï¿½enini al ve hedefe zarar ver
             Stats originalTargetStats = originalTarget.gameObject.GetComponent<Stats>();
             originalTargetStats?.TakeDamage(originalTarget.gameObject, playerStats.damage);
 

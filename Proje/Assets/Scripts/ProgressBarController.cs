@@ -28,11 +28,9 @@ public class ProgressBarController : MonoBehaviour
     public HastaneSliderController hastaneSlider;
     public float savasciCreationTime = 1.5f;
     public float okcuCreationTime = 2.5f;
-    public float mizrakciCreationTime = 4.5f;
     private float totalUnitAmount;
     public float savasciHealTime = 1.5f;
     public float okcuHealTime = 2.5f;
-    public float mizrakciHealTime = 4.5f;
 
     public bool isBarracksBuildActive = false;
     public bool isUnitCreationActive = false;
@@ -67,7 +65,6 @@ public class ProgressBarController : MonoBehaviour
     public ConstructionController constructionController;
     public PanelManager panelManager;
 
-   
 
     private TextMeshProUGUI buttonText;
     private TextMeshProUGUI healButtonText;
@@ -76,14 +73,25 @@ public class ProgressBarController : MonoBehaviour
     public float time;
     public TextMeshProUGUI kalanZaman;
 
+    public float createdSoldierAmount = 5f;
+    public float createdArcherAmount = 5f;
+
     private float totalAltin = 0, totalYemek = 0, totalDemir = 0, totalTas = 0, totalKereste = 0;
-    
+
+    [Header("ScriptableObject")]
+    public GetPlayerData getPlayerData;
+
     void Start()
     {
         // Baþlangýçta zaman sýfýrlanabilir.
         time = 0;
+        
         buttonText = createUnitButton.GetComponentInChildren<TextMeshProUGUI>();
         healButtonText = healButton.GetComponentInChildren<TextMeshProUGUI>();
+
+        getPlayerData.UpdateSoldierAmount(createdSoldierAmount, createdArcherAmount);//Default olarak 5'er adet askerler baþlatýyoruz.(5 Piyade, 5 Okçu)
+
+        
     }
 
     public void CreateUnits()
@@ -103,6 +111,7 @@ public class ProgressBarController : MonoBehaviour
                     float savasciTime = slider.savasciSlider.value * savasciCreationTime;
                     totalTime += savasciTime;
                     totalUnitAmount += slider.savasciSlider.value;
+                   
                 }
 
                 // Okçu slider'ýnýn deðeri varsa
@@ -111,15 +120,9 @@ public class ProgressBarController : MonoBehaviour
                     float okcuTime = slider.okcuSlider.value * okcuCreationTime;
                     totalTime += okcuTime;
                     totalUnitAmount += slider.okcuSlider.value;
+                    
                 }
 
-                // Mýzrakçý slider'ýnýn deðeri varsa
-                if (slider.mizrakciSlider.value > 0)
-                {
-                    float mizrakciTime = slider.mizrakciSlider.value * mizrakciCreationTime;
-                    totalTime += mizrakciTime;
-                    totalUnitAmount += slider.mizrakciSlider.value;
-                }
 
                 // Tüm birimlerin toplam üretim süresi sýfýrdan büyükse progress bar'ý güncelle
                 if (totalTime > 0)
@@ -129,26 +132,53 @@ public class ProgressBarController : MonoBehaviour
                     {
                         // Mevcut animasyonu durdur
                         buttonText.text = "Eðit";
-                        giveCostBack(slider.savasciSlider.value, slider.okcuSlider.value, slider.mizrakciSlider.value);
+
+                        // Mevcut asker sayýsýný deðiþtirmiyoruz
+                        // Sadece slider deðerlerini sýfýrlýyoruz
+                        slider.okcuSlider.value = 0f;
+                        slider.savasciSlider.value = 0f;
+
+                        // Kaynaklarý geri ver
+                        giveCostBack(slider.savasciSlider.value, slider.okcuSlider.value);
+
+                        Debug.Log("Savaþcý Sayisi :" + createdSoldierAmount); // Burada mevcut asker sayýsý deðiþmeden kalýr
+                        Debug.Log("Okcu Sayisi : " + createdArcherAmount);
+
                         LeanTween.cancel(progressBar);
                         panelManager.DestroyPanel("SoldierCreation");
                         isUnitCreationActive = false;
+
                         // Progress bar'ý sýfýrla
                         ResetProgressBar(progressBar);
+
+                        // Toplam birim miktarýný sýfýrla
                         totalUnitAmount = 0;
                     }
+
                     else
                     {
                         // Progress bar'ý baþlat
                         isUnitCreationActive = true; // Progress bar aktif
                         buttonText.text = "Ýptal Et";
-                        reduceCost(slider.savasciSlider.value, slider.okcuSlider.value, slider.mizrakciSlider.value);
+                        reduceCost(slider.savasciSlider.value, slider.okcuSlider.value);
                         LeanTween.scaleX(progressBar, 1, totalTime)
                             .setOnComplete(() =>
                             {
                                 // Progress bar dolduðunda yapýlacak iþlemler
                                 buttonText.text = "Üret";
                                 OnProgressComplete();
+                                createdArcherAmount += slider.okcuSlider.value;
+                                createdSoldierAmount += slider.savasciSlider.value;
+
+                                //--------------InGameAskerSayýsýGüncelleme-----------------
+                                getPlayerData.UpdateSoldierAmount(createdSoldierAmount, createdArcherAmount); 
+                                //-----------------------------------------------------------
+                                
+                                slider.okcuSlider.value = 0f;
+                                slider.savasciSlider.value = 0f;
+                                Debug.Log("Savaþcý Sayisi :" + createdSoldierAmount);
+                                Debug.Log("Okcu Sayisi : " + createdArcherAmount);
+                               
                                 ResetProgressBar(progressBar); // Progress bar'ý sýfýrlamak için çaðýr
                                isUnitCreationActive = false;
                             });
@@ -171,14 +201,14 @@ public class ProgressBarController : MonoBehaviour
         
     }
 
-    void reduceCost(float savasciCount, float okcuCount, float mizrakciCount ) // Maliyetleri kaynaklardan düþen fonksiyon.
+    void reduceCost(float savasciCount, float okcuCount) // Maliyetleri kaynaklardan düþen fonksiyon.
     {
 
-        totalAltin = ((int)savasciCount * 5) + ((int)okcuCount * 7) + ((int)mizrakciCount * 7);
-        totalYemek = ((int)savasciCount * 5) + ((int)okcuCount * 6) + ((int)mizrakciCount * 6);
-        totalDemir = ((int)savasciCount * 5) + ((int)okcuCount * 3) + ((int)mizrakciCount * 3);
-        totalTas = ((int)savasciCount * 5) + ((int)okcuCount * 2) + ((int)mizrakciCount * 2);
-        totalKereste = ((int)savasciCount * 5) + ((int)okcuCount * 10) + ((int)mizrakciCount * 10);
+        totalAltin = ((int)savasciCount * 5) + ((int)okcuCount * 7) ;
+        totalYemek = ((int)savasciCount * 5) + ((int)okcuCount * 6) ;
+        totalDemir = ((int)savasciCount * 5) + ((int)okcuCount * 3) ;
+        totalTas = ((int)savasciCount * 5) + ((int)okcuCount * 2) ;
+        totalKereste = ((int)savasciCount * 5) + ((int)okcuCount * 10);
 
         Kingdom.myKingdom.GoldAmount -= (int)totalAltin;
         Kingdom.myKingdom.FoodAmount -= (int)totalYemek;
@@ -187,14 +217,14 @@ public class ProgressBarController : MonoBehaviour
         Kingdom.myKingdom.WoodAmount -= (int)totalKereste;
     }
 
-    void giveCostBack(float savasciCount, float okcuCount, float mizrakciCount)
+    void giveCostBack(float savasciCount, float okcuCount)
     {
 
-        totalAltin = ((int)savasciCount * 5) + ((int)okcuCount * 7) + ((int)mizrakciCount * 7);
-        totalYemek = ((int)savasciCount * 5) + ((int)okcuCount * 6) + ((int)mizrakciCount * 6);
-        totalDemir = ((int)savasciCount * 5) + ((int)okcuCount * 3) + ((int)mizrakciCount * 3);
-        totalTas = ((int)savasciCount * 5) + ((int)okcuCount * 2) + ((int)mizrakciCount * 2);
-        totalKereste = ((int)savasciCount * 5) + ((int)okcuCount * 10) + ((int)mizrakciCount * 10);
+        totalAltin = ((int)savasciCount * 5) + ((int)okcuCount * 7) ;
+        totalYemek = ((int)savasciCount * 5) + ((int)okcuCount * 6);
+        totalDemir = ((int)savasciCount * 5) + ((int)okcuCount * 3);
+        totalTas = ((int)savasciCount * 5) + ((int)okcuCount * 2) ;
+        totalKereste = ((int)savasciCount * 5) + ((int)okcuCount * 10) ;
 
         Kingdom.myKingdom.GoldAmount += (int)totalAltin;
         Kingdom.myKingdom.FoodAmount += (int)totalYemek;
@@ -238,11 +268,6 @@ public class ProgressBarController : MonoBehaviour
                     totalHealedUnitaAmount += (int)hastaneSlider.okcuSlider.value;
                 }
 
-                if (hastaneSlider.mizrakciSlider.value > 0)
-                {
-                    totalHealTime += hastaneSlider.mizrakciSlider.value * mizrakciHealTime;
-                    totalHealedUnitaAmount += (int)hastaneSlider.mizrakciSlider.value;
-                }
 
                 // Toplam iyileþtirme süresi sýfýrdan büyükse progress bar'ý güncelle
                 if (totalHealTime > 0)
@@ -256,7 +281,7 @@ public class ProgressBarController : MonoBehaviour
                     {
                         // Mevcut animasyonu durdur
                         healButtonText.text = "Ýyileþtir";
-                        giveCostBack(hastaneSlider.savasciSlider.value, hastaneSlider.okcuSlider.value, hastaneSlider.mizrakciSlider.value);
+                        giveCostBack(hastaneSlider.savasciSlider.value, hastaneSlider.okcuSlider.value);
                         LeanTween.cancel(healProgressBar);
                         panelManager.DestroyPanel("HealSoldier");
                         // Progress bar'ý sýfýrla
@@ -269,7 +294,7 @@ public class ProgressBarController : MonoBehaviour
                         // Progress bar'ý baþlat
                         isHealActive = true; // Progress bar aktif
                         healButtonText.text = "Ýptal Et";
-                        reduceCost(hastaneSlider.savasciSlider.value, hastaneSlider.okcuSlider.value, hastaneSlider.mizrakciSlider.value);
+                        reduceCost(hastaneSlider.savasciSlider.value, hastaneSlider.okcuSlider.value);
                         LeanTween.scaleX(healProgressBar, 1, totalHealTime)
                             .setOnComplete(() =>
                             {

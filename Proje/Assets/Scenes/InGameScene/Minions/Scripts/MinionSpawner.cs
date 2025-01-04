@@ -11,43 +11,68 @@ public class MinionSpawner : MonoBehaviour
     public GameObject rangedMinionPrefab;   // Uzak dövüş minion prefabı
     public Transform[] spawnPoints;         // Minionların doğacağı noktalar
     public float spawnInterval = 20.0f;     // Minion dalgaları arasındaki aralık
-    public int minionsPerWave = 10;         // Her dalga için minion sayısı (5 melee, 5 ranged)
     public float delayBetweenMinions;       // Minionlar arası gecikme süresi
 
     private ObjectPool meleeMinionPool;     // Yakın dövüş minionları için obje havuzu
     private ObjectPool rangedMinionPool;    // Uzak dövüş minionları için obje havuzu
 
+    private int meleeUnitsToSpawn = 0;      // Üretilecek melee birim miktarı
+    private int rangedUnitsToSpawn = 0;     // Üretilecek ranged birim miktarı
+
+    [Header("ScriptableObject")]
+    public ProgressData progressData;  // ScriptableObject referansı
+
     private void Start()
     {
-        // meleeMinionPool ve rangedMinionPool boyutlarını 5 yaparak her dalga için yeterli sayıda minion sağlıyoruz
-        meleeMinionPool = new ObjectPool(meleeMinionPrefab, 5, transform);
-        rangedMinionPool = new ObjectPool(rangedMinionPrefab, 5, transform);
+        // Obje havuzlarını başlat
+        meleeMinionPool = new ObjectPool(meleeMinionPrefab, 10, transform);
+        rangedMinionPool = new ObjectPool(rangedMinionPrefab, 10, transform);
+
+
+        meleeUnitsToSpawn = (int)progressData.createdSoldierAmount;
+        rangedUnitsToSpawn = (int)progressData.createdArcherAmount;
+
 
         StartCoroutine(SpawnMinions()); // Minionları doğurma işlemini başlat
     }
 
     private IEnumerator SpawnMinions()
     {
-        while (true)
-        {
-            for (int i = 0; i < minionsPerWave; i++)
-            {
-                // İlk 5 minion melee olacak, sonraki 5 minion ranged olacak
-                if (i < 5) // İlk 5 minion melee
-                {
-                    SpawnMinion(meleeMinionPool, meleeMinionMoveSpeed);
-                }
-                else // Sonraki 5 minion ranged
-                {
-                    SpawnMinion(rangedMinionPool, rangedMinionMoveSpeed);
-                }
+        // Toplam minyon sayısını hesapla
+        int totalUnitsToSpawn = meleeUnitsToSpawn + rangedUnitsToSpawn;
 
+        // Asker sayısı 10'dan fazla ise, gruplara bölerek spawn et
+        while (totalUnitsToSpawn > 0)
+        {
+            int meleeToSpawnThisBatch = Mathf.Min(5, meleeUnitsToSpawn);  // Bu dalgada spawn edilecek melee birim sayısı (max 5)
+            int rangedToSpawnThisBatch = Mathf.Min(5, rangedUnitsToSpawn);  // Bu dalgada spawn edilecek ranged birim sayısı (max 5)
+
+            // Melee birimleri spawn et
+            for (int i = 0; i < meleeToSpawnThisBatch; i++)
+            {
+                SpawnMinion(meleeMinionPool, meleeMinionMoveSpeed);
+                meleeUnitsToSpawn--;
+                totalUnitsToSpawn--;
                 yield return new WaitForSeconds(delayBetweenMinions);
             }
 
-            yield return new WaitForSeconds(spawnInterval - delayBetweenMinions * minionsPerWave);
+            // Ranged birimleri spawn et
+            for (int i = 0; i < rangedToSpawnThisBatch; i++)
+            {
+                SpawnMinion(rangedMinionPool, rangedMinionMoveSpeed);
+                rangedUnitsToSpawn--;
+                totalUnitsToSpawn--;
+                yield return new WaitForSeconds(delayBetweenMinions);
+            }
+
+            // Dalga arası bekleme
+            if (totalUnitsToSpawn > 0)  // Eğer daha fazla birim varsa, tekrar spawn etmek için bekle
+            {
+                yield return new WaitForSeconds(spawnInterval - delayBetweenMinions * (meleeToSpawnThisBatch + rangedToSpawnThisBatch));
+            }
         }
     }
+
 
     private void SpawnMinion(ObjectPool pool, float moveSpeed)
     {

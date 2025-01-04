@@ -102,7 +102,11 @@ public class TowerHoverHandler : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
         public void OnPointerExit(PointerEventData eventData)
         {
-             Maliyet.SetActive(false);
+            if(Maliyet != null)
+            {
+            Maliyet.SetActive(false);
+        }
+            
         }
 
     public void DestroyResourceUIElements()

@@ -127,7 +127,11 @@ public class TrapHoverHandler : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Maliyet.SetActive(false);
+        if(Maliyet != null)
+        {
+            Maliyet.SetActive(false);
+        }
+        
     }
 
     public void DestroyResourceUIElements()

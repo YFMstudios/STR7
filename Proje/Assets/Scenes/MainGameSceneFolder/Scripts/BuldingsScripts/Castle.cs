@@ -45,9 +45,5 @@ public class Castle : Building
         }
     }
 
-    public void upgradeStats()
-    {
-        
-        Debug.Log("Furkanýn sahnedeki deðiþkenleri burada deðiþtir.");
-    }
+
 }

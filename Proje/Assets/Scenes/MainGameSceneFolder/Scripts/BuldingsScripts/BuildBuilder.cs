@@ -48,6 +48,8 @@ public class BuildBuilder : MonoBehaviour
     public static bool buildTowerTwoIsActive = false;
     public static bool isAnyTrapActive = false;
 
+    [Header("ScriptableObject")]
+    public GetPlayerData getPlayerData;
 
     public static bool checkResources(Building building) // Artýk Building türü kabul ediliyor
     {
@@ -671,7 +673,7 @@ public class BuildBuilder : MonoBehaviour
             barracks = gameObject.AddComponent<Barracks>();
             TextMeshProUGUI buttonText = buildBarracksButton.GetComponentInChildren<TextMeshProUGUI>();
 
-            if (checkResources(barracks) && Sawmill.buildLevel >= 1 && Farm.buildLevel >= 2 && Blacksmith.buildLevel >= 1)
+            if (checkResources(barracks) /*&& Sawmill.buildLevel >= 1 && Farm.buildLevel >= 2 && Blacksmith.buildLevel >= 1*/)
             {
                 //Kaynaklarý Azalt
                 Kingdom.myKingdom.GoldAmount -= barracks.buildGoldCost;
@@ -1442,7 +1444,7 @@ public class BuildBuilder : MonoBehaviour
                         Castle.wasCastleCreated = true;
 
                         Castle.buildLevel = 2;
-                        castle.upgradeStats();
+                        getPlayerData.UpgradeCastleStats(Castle.buildLevel);//InGame Sahnesindeki Kalenin Özelliklerini Güncelliyoruz.(Can,SaldýrýHýzý cart curt)
                         castle.UpdateCosts(); // Maliyetleri güncelle
                         buildCastleButton.enabled = true;
                         castlePanelController.refreshCastle();
@@ -1485,7 +1487,7 @@ public class BuildBuilder : MonoBehaviour
                             // Gerekli iþlemleri yap
 
                             Castle.buildLevel++;
-                            castle.upgradeStats();
+                            getPlayerData.UpgradeCastleStats(Castle.buildLevel);//InGame Sahnesindeki Kalenin Özelliklerini Güncelliyoruz.(Can,SaldýrýHýzý cart curt)
                             castlePanelController.refreshCastle();
                             Destroy(buildCastleButton.gameObject);
                         }
@@ -1541,6 +1543,13 @@ public class BuildBuilder : MonoBehaviour
                             // Gerekli iþlemleri yap
                             Tower.wasTowerOneCreated = true;
                             Tower.towerOneBuildLevel = 1;
+
+                            //----------------InGame Scene Ýle Alaklý--------------------------//
+                            getPlayerData.TowerOneIsBuilded = true;
+                            getPlayerData.ActiveTowerOne();
+                            getPlayerData.UpgradeTowerOneStats(Tower.towerOneBuildLevel);
+                            //----------------InGame Scene Ýle Alaklý--------------------------//
+
                             towerOne.UpdateTowerOneCosts(towerOne);
                             buttonText.text = "Yükselt";
                             buildTowerOneButton.enabled = true;
@@ -1585,7 +1594,11 @@ public class BuildBuilder : MonoBehaviour
                             if (isFinished)
                             {
                                 // Gerekli iþlemleri yap
-                                Tower.towerOneBuildLevel++;
+                                Tower.towerOneBuildLevel++;//TowerOne Level = 2 Oldu
+                                //----------------InGame Scene Ýle Alaklý--------------------------//                              
+                                getPlayerData.UpgradeTowerOneStats(Tower.towerOneBuildLevel);
+                                //----------------InGame Scene Ýle Alaklý--------------------------//
+
                                 towerOne.UpdateTowerOneCosts(towerOne);
                                 buttonText.text = "Yükselt";
                                 buildTowerOneButton.enabled = true;
@@ -1631,6 +1644,9 @@ public class BuildBuilder : MonoBehaviour
                             {
                                 // Gerekli iþlemleri yap
                                 Tower.towerOneBuildLevel++;
+                                //----------------InGame Scene Ýle Alaklý--------------------------//                              
+                                getPlayerData.UpgradeTowerOneStats(Tower.towerOneBuildLevel);
+                                //----------------InGame Scene Ýle Alaklý--------------------------//
                                 towerPanelController.refreshTowerOne();
                                 Destroy(buildTowerOneButton.gameObject);
                                 buildTowerOneIsActive = false;
@@ -1693,6 +1709,13 @@ public class BuildBuilder : MonoBehaviour
                             // Gerekli iþlemleri yap
                             Tower.wasTowerTwoCreated = true;
                             Tower.towerTwoBuildLevel = 1;
+
+                            //----------------InGame Scene Ýle Alaklý--------------------------//
+                            getPlayerData.TowerTwoIsBuilded = true;
+                            getPlayerData.ActiveTowerTwo();
+                            getPlayerData.UpgradeTowerTwoStats(Tower.towerTwoBuildLevel);
+                            //----------------InGame Scene Ýle Alaklý--------------------------//
+
                             towerTwo.UpdateTowerTwoCosts(towerTwo);
                             buttonText.text = "Yükselt";
                             buildTowerTwoButton.enabled = true;
@@ -1738,6 +1761,9 @@ public class BuildBuilder : MonoBehaviour
                             {
                                 // Gerekli iþlemleri yap
                                 Tower.towerTwoBuildLevel++;
+                                //----------------InGame Scene Ýle Alaklý--------------------------//                              
+                                getPlayerData.UpgradeTowerTwoStats(Tower.towerTwoBuildLevel);
+                                //----------------InGame Scene Ýle Alaklý--------------------------//
                                 towerTwo.UpdateTowerTwoCosts(towerTwo);
                                 buttonText.text = "Yükselt";
                                 buildTowerTwoButton.enabled = true;
@@ -1781,6 +1807,9 @@ public class BuildBuilder : MonoBehaviour
                             {
                                 // Gerekli iþlemleri yap
                                 Tower.towerTwoBuildLevel++;
+                                //----------------InGame Scene Ýle Alaklý--------------------------//                              
+                                getPlayerData.UpgradeTowerTwoStats(Tower.towerTwoBuildLevel);
+                                //----------------InGame Scene Ýle Alaklý--------------------------//
                                 towerPanelController.refreshTowerTwo();
                                 buildTowerTwoIsActive = false;
                                 Destroy(buildTowerTwoButton.gameObject);
@@ -1840,6 +1869,11 @@ public class BuildBuilder : MonoBehaviour
                         {
                             Trap.wasTrapOneCreated = true;
                             Trap.trapOneBuildLevel = 1;
+                            //----------------InGame Scene Ýle Alaklý--------------------------//
+                            getPlayerData.TrapOneIsBuilded = true;
+                            getPlayerData.ActiveTrapOne();
+                            getPlayerData.UpgradeTrapOneStats(Trap.trapOneBuildLevel);
+                            //----------------InGame Scene Ýle Alaklý--------------------------//
                             trapOne.UpdateTrapOneCosts(trapOne);
                             buttonText.text = "Yükselt";
                             buildTrapOneButton.enabled = true;
@@ -1884,6 +1918,9 @@ public class BuildBuilder : MonoBehaviour
                             if (isFinished)
                             {
                                 Trap.trapOneBuildLevel++;
+                                //----------------InGame Scene Ýle Alaklý--------------------------//
+                                getPlayerData.UpgradeTrapOneStats(Trap.trapOneBuildLevel);
+                                //----------------InGame Scene Ýle Alaklý--------------------------//
                                 trapOne.UpdateTrapOneCosts(trapOne);
                                 buttonText.text = "Yükselt";
                                 buildTrapOneButton.enabled = true;
@@ -1952,6 +1989,11 @@ public class BuildBuilder : MonoBehaviour
                         {
                             Trap.wasTrapTwoCreated = true;
                             Trap.trapTwoBuildLevel = 1;
+                            //----------------InGame Scene Ýle Alaklý--------------------------//
+                            getPlayerData.TrapTwoIsBuilded = true;
+                            getPlayerData.ActiveTrapTwo();
+                            getPlayerData.UpgradeTrapTwoStats(Trap.trapTwoBuildLevel);
+                            //----------------InGame Scene Ýle Alaklý--------------------------//
                             trapTwo.UpdateTrapTwoCosts(trapTwo);
                             buttonText.text = "Yükselt";
                             buildTrapTwoButton.enabled = true;
@@ -1996,6 +2038,9 @@ public class BuildBuilder : MonoBehaviour
                             if (isFinished)
                             {
                                 Trap.trapTwoBuildLevel++;
+                                //----------------InGame Scene Ýle Alaklý--------------------------//
+                                getPlayerData.UpgradeTrapTwoStats(Trap.trapTwoBuildLevel);
+                                //----------------InGame Scene Ýle Alaklý--------------------------//
                                 trapTwo.UpdateTrapTwoCosts(trapTwo);
                                 buttonText.text = "Yükselt";
                                 buildTrapTwoButton.enabled = true;
@@ -2064,6 +2109,11 @@ public class BuildBuilder : MonoBehaviour
                         {
                             Trap.wasTrapThreeCreated = true;
                             Trap.trapThreeBuildLevel = 1;
+                            //----------------InGame Scene Ýle Alaklý--------------------------//
+                            getPlayerData.TrapThreeIsBuilded = true;
+                            getPlayerData.ActiveTrapThree();
+                            getPlayerData.UpgradeTrapThreeStats(Trap.trapThreeBuildLevel);
+                            //----------------InGame Scene Ýle Alaklý--------------------------//
                             trapThree.UpdateTrapThreeCosts(trapThree);
                             buttonText.text = "Yükselt";
                             buildTrapThreeButton.enabled = true;
@@ -2108,6 +2158,9 @@ public class BuildBuilder : MonoBehaviour
                             if (isFinished)
                             {
                                 Trap.trapThreeBuildLevel++;
+                                //----------------InGame Scene Ýle Alaklý--------------------------//
+                                getPlayerData.UpgradeTrapThreeStats(Trap.trapThreeBuildLevel);
+                                //----------------InGame Scene Ýle Alaklý--------------------------//
                                 trapThree.UpdateTrapThreeCosts(trapThree);
                                 buttonText.text = "Yükselt";
                                 buildTrapThreeButton.enabled = true;

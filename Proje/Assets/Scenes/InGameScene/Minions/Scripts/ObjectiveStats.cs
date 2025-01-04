@@ -19,6 +19,17 @@ public class ObjectiveStats : MonoBehaviour
     // Animator referansı
     private Animator animator;
 
+    [Header("ScriptableObject")]
+    public ProgressData progressData;
+
+    void Update()
+    {
+        if(progressData.IsCastleUpgraded == true)
+        {
+            Debug.Log("Bina Seviyesi Yükseltildi.");
+            
+        }    
+    }
     private void Awake()
     {
         healthUII = GetComponent<HealthUII>();

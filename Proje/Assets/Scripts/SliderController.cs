@@ -8,10 +8,8 @@ public class SliderController : MonoBehaviour
 {
     public UnityEngine.UI.Slider savasciSlider;
     public UnityEngine.UI.Slider okcuSlider;
-    public UnityEngine.UI.Slider mizrakciSlider;
     public InputField savasciInputField;
     public InputField okcuInputField;
-    public InputField mizrakciInputField;
 
     public TextMeshProUGUI AltinText;
     public TextMeshProUGUI KeresteText;
@@ -26,12 +24,10 @@ public class SliderController : MonoBehaviour
         // Slider'larýn wholeNumbers özelliðini true olarak ayarlama
         savasciSlider.wholeNumbers = true;
         okcuSlider.wholeNumbers = true;
-        mizrakciSlider.wholeNumbers = true;
 
         // Slider'larýn maksimum deðerlerini ayarlama
         savasciSlider.maxValue = 100; // Örneðin, savasciSlider'ýn maksimum deðeri 100
         okcuSlider.maxValue = 50;     // Örneðin, okcuSlider'ýn maksimum deðeri 50
-        mizrakciSlider.maxValue = 75; // Örneðin, mizrakciSlider'ýn maksimum deðeri 75
 
         savasciInputField.text = "0";
         savasciSlider.value = 0;
@@ -41,13 +37,9 @@ public class SliderController : MonoBehaviour
         okcuSlider.value = 0;
         okcuSlider.onValueChanged.AddListener(delegate { OnOkcuSliderChanged(); });
 
-        mizrakciInputField.text = "0";
-        mizrakciSlider.value = 0;
-        mizrakciSlider.onValueChanged.AddListener(delegate { OnMizrakciSliderChanged(); });
 
         savasciInputField.onEndEdit.AddListener(OnSavasciInputEndEdit);
         okcuInputField.onEndEdit.AddListener(OnOkcuInputEndEdit);
-        mizrakciInputField.onEndEdit.AddListener(OnMizrakciInputEndEdit);
     }
 
     // Savaþçý slider'ý deðiþtiðinde hem maliyetleri hem de InputField'ý güncelle
@@ -64,12 +56,6 @@ public class SliderController : MonoBehaviour
         UpdateAllCosts();
     }
 
-    // Mýzrakçý slider'ý deðiþtiðinde hem maliyetleri hem de InputField'ý güncelle
-    private void OnMizrakciSliderChanged()
-    {
-        mizrakciInputField.text = mizrakciSlider.value.ToString();
-        UpdateAllCosts();
-    }
 
     // Tüm slider'larýn mevcut deðerlerini kullanarak maliyetleri güncelleyen fonksiyon
     private void UpdateAllCosts()
@@ -77,14 +63,13 @@ public class SliderController : MonoBehaviour
         // Her bir slider'ýn deðerini al
         float savasciCount = savasciSlider.value;
         float okcuCount = okcuSlider.value;
-        float mizrakciCount = mizrakciSlider.value;
 
         // Tüm birimlerin maliyetlerini toplu olarak hesapla
-        float totalAltin = (savasciCount * 5) + (okcuCount * 7) + (mizrakciCount * 7);
-        float totalYemek = (savasciCount * 5) + (okcuCount * 6) + (mizrakciCount * 6);
-        float totalDemir = (savasciCount * 5) + (okcuCount * 3) + (mizrakciCount * 3);
-        float totalTas = (savasciCount * 5) + (okcuCount * 2) + (mizrakciCount * 2);
-        float totalKereste = (savasciCount * 5) + (okcuCount * 10) + (mizrakciCount * 10);
+        float totalAltin = (savasciCount * 5) + (okcuCount * 7) ;
+        float totalYemek = (savasciCount * 5) + (okcuCount * 6) ;
+        float totalDemir = (savasciCount * 5) + (okcuCount * 3) ;
+        float totalTas = (savasciCount * 5) + (okcuCount * 2);
+        float totalKereste = (savasciCount * 5) + (okcuCount * 10);
 
         // Text alanlarýný güncelle
         AltinText.text = totalAltin.ToString();
@@ -113,12 +98,4 @@ public class SliderController : MonoBehaviour
         }
     }
 
-    private void OnMizrakciInputEndEdit(string value)
-    {
-        float floatValue;
-        if (float.TryParse(value, out floatValue))
-        {
-            mizrakciSlider.value = Mathf.Clamp(floatValue, mizrakciSlider.minValue, mizrakciSlider.maxValue);
-        }
-    }
 }

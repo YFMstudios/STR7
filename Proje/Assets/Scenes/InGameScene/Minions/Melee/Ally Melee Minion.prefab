@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  damage: 5
+  damage: 100
   damageLerpDuration: 0.2
 --- !u!114 &-8326526324587816037
 MonoBehaviour:

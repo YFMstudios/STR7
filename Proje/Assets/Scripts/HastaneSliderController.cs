@@ -8,15 +8,12 @@ public class HastaneSliderController : MonoBehaviour
 {
     public int yaraliSavasciSayisi;
     public int yaraliOkcuSayisi;
-    public int yaraliMizrakciSayisi;
 
     public Slider savasciSlider;
     public Slider okcuSlider;
-    public Slider mizrakciSlider;
 
     public InputField savasciInputField;
     public InputField okcuInputField;
-    public InputField mizrakciInputField;
 
     public TextMeshProUGUI AltinText;
     public TextMeshProUGUI KeresteText;
@@ -36,15 +33,12 @@ public class HastaneSliderController : MonoBehaviour
     {   //Furkanýn sahneden alýna bilgiler burada eþitlenecek.
         yaraliSavasciSayisi = 100;
         yaraliOkcuSayisi = 150;
-        yaraliMizrakciSayisi = 250;
 
         savasciSlider.wholeNumbers = true;
         okcuSlider.wholeNumbers = true;
-        mizrakciSlider.wholeNumbers = true;
 
         savasciSlider.maxValue = yaraliSavasciSayisi;
         okcuSlider.maxValue = yaraliOkcuSayisi;
-        mizrakciSlider.maxValue = yaraliMizrakciSayisi;
 
         savasciInputField.text = "0";
         savasciSlider.value = 0;
@@ -56,10 +50,6 @@ public class HastaneSliderController : MonoBehaviour
         okcuSlider.onValueChanged.AddListener(OnOkcuSliderValueChanged);
         okcuInputField.onEndEdit.AddListener(OnOkcuInputFieldEndEdit);
 
-        mizrakciInputField.text = "0";
-        mizrakciSlider.value = 0;
-        mizrakciSlider.onValueChanged.AddListener(OnMizrakciSliderValueChanged);
-        mizrakciInputField.onEndEdit.AddListener(OnMizrakciInputFieldEndEdit);
     }
 
     void OnSavasciSliderValueChanged(float value)
@@ -71,12 +61,6 @@ public class HastaneSliderController : MonoBehaviour
     void OnOkcuSliderValueChanged(float value)
     {
         okcuInputField.text = value.ToString();
-        CalculateTotalCosts();
-    }
-
-    void OnMizrakciSliderValueChanged(float value)
-    {
-        mizrakciInputField.text = value.ToString();
         CalculateTotalCosts();
     }
 
@@ -100,27 +84,17 @@ public class HastaneSliderController : MonoBehaviour
         }
     }
 
-    void OnMizrakciInputFieldEndEdit(string value)
-    {
-        float floatValue;
-        if (float.TryParse(value, out floatValue))
-        {
-            mizrakciSlider.value = Mathf.Clamp(floatValue, mizrakciSlider.minValue, mizrakciSlider.maxValue);
-            CalculateTotalCosts();
-        }
-    }
 
     void CalculateTotalCosts()
     {
         float savasciCount = savasciSlider.value;
         float okcuCount = okcuSlider.value;
-        float mizrakciCount = mizrakciSlider.value;
 
-        toplamAltin = (savasciCount * 5) + (okcuCount * 7) + (mizrakciCount * 7);
-        toplamYemek = (savasciCount * 5) + (okcuCount * 6) + (mizrakciCount * 6);
-        toplamDemir = (savasciCount * 5) + (okcuCount * 3) + (mizrakciCount * 3);
-        toplamTas = (savasciCount * 5) + (okcuCount * 2) + (mizrakciCount * 2);
-        toplamKereste = (savasciCount * 5) + (okcuCount * 10) + (mizrakciCount * 10);
+        toplamAltin = (savasciCount * 5) + (okcuCount * 7) ;
+        toplamYemek = (savasciCount * 5) + (okcuCount * 6) ;
+        toplamDemir = (savasciCount * 5) + (okcuCount * 3) ;
+        toplamTas = (savasciCount * 5) + (okcuCount * 2) ;
+        toplamKereste = (savasciCount * 5) + (okcuCount * 10) ;
 
         UpdateCostTexts();
     }

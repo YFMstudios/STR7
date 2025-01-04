@@ -2719,6 +2719,27 @@ MonoBehaviour:
   - EnemyMinionSpawner1
   - EnemyMinionSpawner2
   - EnemyMinionSpawner3
+--- !u!114 &1176192666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053204006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca69c31b62482a54ab131773c092c9e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeMinionMoveSpeed: 3
+  rangedMinionMoveSpeed: 3
+  meleeMinionPrefab: {fileID: 2379972077780547209, guid: bd7b9dee928e57a42b9114159b59e2a3, type: 3}
+  rangedMinionPrefab: {fileID: 2379972077780547209, guid: 49f4ddee6d9dc1b45bf5d845965325a5, type: 3}
+  spawnPoints:
+  - {fileID: 1176192662}
+  spawnInterval: 20
+  minionsPerWave: 10
+  delayBetweenMinions: 1
 --- !u!1 &1179806315
 GameObject:
   m_ObjectHideFlags: 0
@@ -5469,6 +5490,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8764284995304616237, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764284995304616237, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
       propertyPath: minionsPerWave
       value: 10
       objectReference: {fileID: 0}
@@ -5479,6 +5504,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7427281804350960737, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1176192664}
+    - targetCorrespondingSourceObject: {fileID: 7427281804350960737, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1176192666}
   m_SourcePrefab: {fileID: 100100000, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
 --- !u!1001 &5568113374615634907
 PrefabInstance:
@@ -6291,6 +6319,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3673321132237095353, guid: 55917729b23366f44b1d362ac5c91a61, type: 3}
+      propertyPath: progressData
+      value: 
+      objectReference: {fileID: 11400000, guid: d0722646d21a7284faa7bdd26d6eddec, type: 2}
     - target: {fileID: 3673321132237095353, guid: 55917729b23366f44b1d362ac5c91a61, type: 3}
       propertyPath: spawnInterval
       value: 20

@@ -9,6 +9,7 @@ public class ResearchController : MonoBehaviour
 
     public Image[] lockItems = new Image[18];
     public ProgressBarController progressBarController;
+    public ObjectiveStats objectiveStats;
 
     public void OpenResearchUnit(int buildLevel)
     {
@@ -187,24 +188,19 @@ public class ResearchController : MonoBehaviour
         {
             Debug.Log("Eski Savaþçý Heal Time : " + progressBarController.savasciHealTime);
             Debug.Log("Eski Okçu Heal Time : " + progressBarController.okcuHealTime);
-            Debug.Log("Eski Mýzrakçý Heal Time : " + progressBarController.mizrakciHealTime);
             progressBarController.savasciHealTime = 1.25f;
             progressBarController.okcuHealTime = 2.15f;
-            progressBarController.mizrakciHealTime = 4.0f;
             Debug.Log("Yeni Savaþçý Heal Time : " + progressBarController.savasciHealTime);
             Debug.Log("Yeni Okçu Heal Time : " + progressBarController.okcuHealTime);
-            Debug.Log("Yeni Mýzrakçý Heal Time : " + progressBarController.mizrakciHealTime);
-
         }
         else if (researchedLevel == 6)
         {
-            //Furkanýn sahnedeki askerlerin hasarlarýný arttýr.
+            objectiveStats.damage = 10000f;
         }
         else if ((researchedLevel == 7))
         {
             progressBarController.savasciCreationTime -= 0.25f;
             progressBarController.okcuCreationTime -= 0.25f;
-            progressBarController.mizrakciCreationTime -= 0.25f;
 
         }
         else if ((researchedLevel == 8))
@@ -245,7 +241,6 @@ public class ResearchController : MonoBehaviour
         {
             progressBarController.savasciCreationTime -= 0.25f;
             progressBarController.okcuCreationTime -= 0.25f;
-            progressBarController.mizrakciCreationTime -= 0.25f;
         }
         else if (researchedLevel == 16)
         {

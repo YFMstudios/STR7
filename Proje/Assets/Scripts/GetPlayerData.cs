@@ -15,61 +15,61 @@ public class GetPlayerData : ScriptableObject
     public int TrapTwoLevel = 0;
     public int TrapThreeLevel = 0;
     
-    public bool TowerOneIsBuilded = false;//Kule1 Ýnþa Edildi Mi?
-    public bool TowerTwoIsBuilded = false;//Kule2 Ýnþa Edildi Mi?
-    public bool TrapOneIsBuilded = false;//Tuzak1 Ýnþa Edildi Mi?
-    public bool TrapTwoIsBuilded = false;//Tuzak2 Ýnþa Edildi Mi?
-    public bool TrapThreeIsBuilded = false;//Tuzak3 Ýnþa Edildi Mi?
+    public bool TowerOneIsBuilded = false;//Kule1 ï¿½nï¿½a Edildi Mi?
+    public bool TowerTwoIsBuilded = false;//Kule2 ï¿½nï¿½a Edildi Mi?
+    public bool TrapOneIsBuilded = false;//Tuzak1 ï¿½nï¿½a Edildi Mi?
+    public bool TrapTwoIsBuilded = false;//Tuzak2 ï¿½nï¿½a Edildi Mi?
+    public bool TrapThreeIsBuilded = false;//Tuzak3 ï¿½nï¿½a Edildi Mi?
 
-    //----------------------------------- BÝNA AKTFÝLEÞTÝRME FONKSÝYONLARI --------------------------------------------------------------//
+    //----------------------------------- Bï¿½NA AKTFï¿½LEï¿½Tï¿½RME FONKSï¿½YONLARI --------------------------------------------------------------//
     public void ActiveTowerOne()
     {
         TowerOneIsBuilded = true;
-        Debug.Log("MainGame'de TowerOne Ýnþa Edildi. InGame'de aktifleþtirilmesi bekleniyor.");
+        Debug.Log("MainGame'de TowerOne ï¿½nï¿½a Edildi. InGame'de aktifleï¿½tirilmesi bekleniyor.");
     }
 
     public void ActiveTowerTwo()
     {
         TowerTwoIsBuilded=true;
-        Debug.Log("MainGame'de TowerTwo Ýnþa Edildi. InGame'de aktifleþtirilmesi bekleniyor.");
+        Debug.Log("MainGame'de TowerTwo ï¿½nï¿½a Edildi. InGame'de aktifleï¿½tirilmesi bekleniyor.");
     }
 
     public void ActiveTrapOne()
     {
         TrapOneIsBuilded = true;
-        Debug.Log("MainGame'de TrapOne Ýnþa Edildi. InGame'de aktifleþtirilmesi bekleniyor.");
+        Debug.Log("MainGame'de TrapOne ï¿½nï¿½a Edildi. InGame'de aktifleï¿½tirilmesi bekleniyor.");
     }
 
     public void ActiveTrapTwo()
     {
         TrapTwoIsBuilded = true;
-        Debug.Log("MainGame'de TrapTwo Ýnþa Edildi. InGame'de aktifleþtirilmesi bekleniyor.");
+        Debug.Log("MainGame'de TrapTwo ï¿½nï¿½a Edildi. InGame'de aktifleï¿½tirilmesi bekleniyor.");
     }
 
     public void ActiveTrapThree()
     {
         TrapThreeIsBuilded = true;
-        Debug.Log("MainGame'de TrapThree Ýnþa Edildi. InGame'de aktifleþtirilmesi bekleniyor.");
+        Debug.Log("MainGame'de TrapThree ï¿½nï¿½a Edildi. InGame'de aktifleï¿½tirilmesi bekleniyor.");
     }
 
-    //---------------------------------------BÝNA YÜKSELTME FONKSÝYONLARI----------------------------------------------------------------
+    //---------------------------------------Bï¿½NA Yï¿½KSELTME FONKSï¿½YONLARI----------------------------------------------------------------
 
     public void UpgradeCastleStats(int level)
     {
         CastleLevel = level;
         if (CastleLevel == 1)
         {
-            Debug.Log("Castle Bina Seviyesi 1 Oldu."); // Burada biþey yapmana gerek yok.
+            Debug.Log("Castle Bina Seviyesi 1 Oldu."); // Burada biï¿½ey yapmana gerek yok.
         }
 
         if (CastleLevel == 2)
         {
-            Debug.Log("CastleBina Seviyesi 2 Oldu. Bina Stat'slarýnýn arttýrýlmasý bekleniyor.");
+            Debug.Log("CastleBina Seviyesi 2 Oldu. Bina Stat'slarï¿½nï¿½n arttï¿½rï¿½lmasï¿½ bekleniyor.");
         }
 
         if (CastleLevel == 3)
         {
-            Debug.Log("CastleBina Seviyesi 3 Oldu. Bina Stat'slarýnýn arttýrýlmasý bekleniyor.");
+            Debug.Log("CastleBina Seviyesi 3 Oldu. Bina Stat'slarï¿½nï¿½n arttï¿½rï¿½lmasï¿½ bekleniyor.");
         }
 
     }
@@ -84,15 +84,15 @@ public class GetPlayerData : ScriptableObject
 
         else if(TowerOneLevel == 2)
         {
-            Debug.Log("TowerOne Bina Seviyesi 2 Oldu. Bina Stat'slarýnýn arttýrýlmasý bekleniyor.");
+            Debug.Log("TowerOne Bina Seviyesi 2 Oldu. Bina Stat'slarï¿½nï¿½n arttï¿½rï¿½lmasï¿½ bekleniyor.");
         }
         else if(TowerOneLevel == 3)
         {
-            Debug.Log("TowerOne Bina Seviyesi 3 Oldu. Bina Stat'slarýnýn arttýrýlmasý bekleniyor.");
+            Debug.Log("TowerOne Bina Seviyesi 3 Oldu. Bina Stat'slarï¿½nï¿½n arttï¿½rï¿½lmasï¿½ bekleniyor.");
         }
         else
         {
-            Debug.Log("Arýza Var");
+            Debug.Log("Arï¿½za Var");
         }
     }
 
@@ -106,15 +106,15 @@ public class GetPlayerData : ScriptableObject
 
         else if (TowerTwoLevel == 2)
         {
-            Debug.Log("TowerTwo Bina Seviyesi 2 Oldu. Bina Stat'slarýnýn arttýrýlmasý bekleniyor.");
+            Debug.Log("TowerTwo Bina Seviyesi 2 Oldu. Bina Stat'slarï¿½nï¿½n arttï¿½rï¿½lmasï¿½ bekleniyor.");
         }
         else if (TowerTwoLevel == 3)
         {
-            Debug.Log("TowerTwo Bina Seviyesi 3 Oldu. Bina Stat'slarýnýn arttýrýlmasý bekleniyor.");
+            Debug.Log("TowerTwo Bina Seviyesi 3 Oldu. Bina Stat'slarï¿½nï¿½n arttï¿½rï¿½lmasï¿½ bekleniyor.");
         }
         else
         {
-            Debug.Log("Arýza Var");
+            Debug.Log("Arï¿½za Var");
         }
     }
 
@@ -127,15 +127,15 @@ public class GetPlayerData : ScriptableObject
         }
         else if (TrapOneLevel == 2)
         {
-            Debug.Log("TrapOne Bina Seviyesi 2 Oldu. Bina Stat'slarýnýn arttýrýlmasý bekleniyor.");
+            Debug.Log("TrapOne Bina Seviyesi 2 Oldu. Bina Stat'slarï¿½nï¿½n arttï¿½rï¿½lmasï¿½ bekleniyor.");
         }
         else if (TrapOneLevel == 3)
         {
-            Debug.Log("TrapOne Bina Seviyesi 3 Oldu. Bina Stat'slarýnýn arttýrýlmasý bekleniyor.");
+            Debug.Log("TrapOne Bina Seviyesi 3 Oldu. Bina Stat'slarï¿½nï¿½n arttï¿½rï¿½lmasï¿½ bekleniyor.");
         }
         else
         {
-            Debug.Log("Arýza Var");
+            Debug.Log("Arï¿½za Var");
         }
     }
 
@@ -148,15 +148,15 @@ public class GetPlayerData : ScriptableObject
         }
         else if (TrapTwoLevel == 2)
         {
-            Debug.Log("TrapTwo Bina Seviyesi 2 Oldu. Bina Stat'slarýnýn arttýrýlmasý bekleniyor.");
+            Debug.Log("TrapTwo Bina Seviyesi 2 Oldu. Bina Stat'slarï¿½nï¿½n arttï¿½rï¿½lmasï¿½ bekleniyor.");
         }
         else if (TrapTwoLevel == 3)
         {
-            Debug.Log("TrapTwo Bina Seviyesi 3 Oldu. Bina Stat'slarýnýn arttýrýlmasý bekleniyor.");
+            Debug.Log("TrapTwo Bina Seviyesi 3 Oldu. Bina Stat'slarï¿½nï¿½n arttï¿½rï¿½lmasï¿½ bekleniyor.");
         }
         else
         {
-            Debug.Log("Arýza Var");
+            Debug.Log("Arï¿½za Var");
         }
     }
 
@@ -169,22 +169,22 @@ public class GetPlayerData : ScriptableObject
         }
         else if (TrapThreeLevel == 2)
         {
-            Debug.Log("TrapThree Bina Seviyesi 2 Oldu. Bina Stat'slarýnýn arttýrýlmasý bekleniyor.");
+            Debug.Log("TrapThree Bina Seviyesi 2 Oldu. Bina Stat'slarï¿½nï¿½n arttï¿½rï¿½lmasï¿½ bekleniyor.");
         }
         else if (TrapThreeLevel == 3)
         {
-            Debug.Log("TrapThree Bina Seviyesi 3 Oldu. Bina Stat'slarýnýn arttýrýlmasý bekleniyor.");
+            Debug.Log("TrapThree Bina Seviyesi 3 Oldu. Bina Stat'slarï¿½nï¿½n arttï¿½rï¿½lmasï¿½ bekleniyor.");
         }
         else
         {
-            Debug.Log("Arýza Var");
+            Debug.Log("Arï¿½za Var");
         }
     }
     
     //------------------------------------------------------------------------------------------------------------------------
-    public void UpdateSoldierAmount(float savascýSayisi, float okcuSayisi )
+    public void UpdateSoldierAmount(float savasciSayisi, float okcuSayisi )
     {
-        currentSoldierAmount = (int)savascýSayisi;
+        currentSoldierAmount = (int)savasciSayisi;
         currentArcherAmount = (int)okcuSayisi;
     }
 

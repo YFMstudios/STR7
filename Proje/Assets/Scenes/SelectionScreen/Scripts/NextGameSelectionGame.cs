@@ -14,6 +14,20 @@ public class NextGame : MonoBehaviourPunCallbacks
     // Butona tıklandığında çalışacak olan fonksiyon
     public void goWarScene()
     {
+        // Öncelikle Single-player kontrolü yapılır
+        if (ScreenTransitions2.ScreenNavigator.previousScreen == "Simple" ||
+            ScreenTransitions2.ScreenNavigator.previousScreen == "Mid" ||
+            ScreenTransitions2.ScreenNavigator.previousScreen == "Hard")
+        {
+            // Single-player modunda, direkt 7. sahneye geçiş yap
+            Debug.Log("Single-player modunda. 7. ekrana yönlendiriliyor...");
+            GoToWarScene();
+            return; // Single-player kontrolü sağlandıysa geri kalan işlemler yapılmaz
+        }
+
+        // Eğer Single-player değilse, mevcut multiplayer işlemleri devam eder
+        Debug.Log("Multiplayer modunda. Rakip kontrolü ve diğer işlemler başlatılıyor...");
+
         // RegionClickHandler'ın opponentName özelliğinin null olup olmadığını kontrol et
         if (RegionClickHandler.opponentName != null)
         {
@@ -38,6 +52,7 @@ public class NextGame : MonoBehaviourPunCallbacks
         SetWarIsOnline(opponentName);       // Rakip oyuncu için
         CheckPlayerStatus();
     }
+
 
     // WarIsOnline bilgisini true olarak güncelleyen fonksiyon
 
@@ -113,7 +128,7 @@ public class NextGame : MonoBehaviourPunCallbacks
         }
     }
 
-   
+
 
 
 }
